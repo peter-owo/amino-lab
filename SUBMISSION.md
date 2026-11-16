@@ -6,7 +6,7 @@
 
 **GitHub Repository 連結：**〔發布後填入〕
 
-**網頁連結：**〔GitHub Pages 發布後填入〕
+**網頁連結：** https://amino-lab-20aa-2026.enchantingchick4.chatgpt.site
 
 **專案規則：** [AGENTS.md](AGENTS.md)
 
