@@ -40,6 +40,7 @@ python -m http.server 8000
 | `SUBMISSION.md` | 作業繳交內容草稿 |
 | `dist/` | Sites 發布用的靜態網頁副本 |
 | `.openai/hosting.json` | Sites 專案識別與發布目錄 |
+| `sync-dist.ps1` | 將四個網頁原始檔同步到 `dist/` |
 
 ## 化學表示法
 

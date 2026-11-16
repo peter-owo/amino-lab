@@ -107,10 +107,10 @@ function nameStyle() {
 }
 function displayName(a, style) { return style === 'one' ? a.one : style === 'three' ? a.three : a.name; }
 
-function makeQuestion(type, amino, index) {
+function makeQuestion(type, amino, index, facts) {
   if (type === 'properties') {
     if (index % 3 === 2) {
-      const fact = SPECIAL_FACTS[Math.floor(index / 3) % SPECIAL_FACTS.length];
+      const fact = facts[Math.floor(index / 3) % facts.length];
       const answer = byId.get(fact.answer);
       const options = shuffle([answer,...distractors(answer)]);
       return {type:'special',title:fact.question,answer:answer.id,options,explanation:fact.explanation};
@@ -126,8 +126,9 @@ function beginQuiz() {
   const mode = $('#quiz-mode').value;
   const length = Number($('#quiz-length').value);
   const acids = shuffle(AMINO_ACIDS).slice(0,length);
+  const facts = shuffle(SPECIAL_FACTS);
   const types = mode === 'mixed' ? ['nameToStructure','structureToName','properties'] : [mode];
-  quiz = {questions:acids.map((a,index) => makeQuestion(types[index % types.length],a,index)),index:0,score:0,answered:false};
+  quiz = {questions:acids.map((a,index) => makeQuestion(types[index % types.length],a,mode === 'mixed' ? Math.floor(index / types.length) : index,facts)),index:0,score:0,answered:false};
   $('#quiz-setup').hidden = true; $('#quiz-result').hidden = true; $('#quiz-panel').hidden = false;
   renderQuestion();
 }
