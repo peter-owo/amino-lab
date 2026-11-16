@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#f8f4e9">
   <meta name="description" content="用小遊戲和單字卡，輕鬆記住 20 種胺基酸的名稱、縮寫、簡式結構與常考性質。">
   <title>Amino Lab｜20 種胺基酸學習遊戲</title>
-  <link rel="stylesheet" href="styles.css">
-  <script type="module" src="app.js"></script>
+  <link rel="stylesheet" href="styles.css?v=20261116b">
+  <script type="module" src="app.js?v=20261116b"></script>
 </head>
 <body>
   <div class="page-shell">
@@ -66,6 +66,7 @@
           <div class="field-group"><label for="name-style">名稱顯示方式</label><select id="name-style"><option value="full">英文全名</option><option value="three">3 字母縮寫</option><option value="one">1 字母縮寫</option><option value="random">隨機混合</option></select><small>用於題目及「結構 → 名字」的選項。</small></div>
           <div class="field-group"><label for="quiz-length">題數</label><select id="quiz-length"><option value="10">10 題</option><option value="20">20 題</option></select></div>
           <button id="start-quiz" class="button button-primary" type="button">開始挑戰 <span aria-hidden="true">↗</span></button>
+          <p class="setup-topics">性質題包含：極性與電荷、必需胺基酸、BCAA、磷酸化、雙硫鍵、芳香族吸光、代謝與常見修飾。</p>
         </div>
         <div id="quiz-panel" class="quiz-panel" hidden>
           <div class="quiz-topline"><span id="quiz-counter">第 1 / 10 題</span><span id="quiz-score">目前答對 0 題</span></div>

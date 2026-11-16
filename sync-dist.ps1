@@ -1,5 +1,5 @@
 # Keep the static publishing directory in sync with the project source.
-$sourceFiles = @('index.html', 'styles.css', 'data.js', 'app.js')
+$sourceFiles = @('index.html', 'styles.css', 'data.js', 'structures.js', 'app.js')
 $projectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $dist = Join-Path $projectRoot 'dist'
 New-Item -ItemType Directory -Path $dist -Force | Out-Null
