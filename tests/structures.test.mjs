@@ -29,12 +29,23 @@ for (const amino of AMINO_ACIDS) {
   assert.ok(CATEGORIES[amino.category], amino.id);
   assert.ok(amino.traits.length >= 3, amino.id);
   const svg = structureSvg(amino);
-  assert.match(svg, /viewBox="0 0 500 250"/);
+  assert.match(svg, /viewBox="0 0 500 260"/);
   assert.match(svg, /text-anchor="middle"/);
   assert.match(svg, new RegExp(`data-ring="${rings[amino.id] ? amino.id : 'none'}"`));
   if (rings[amino.id]) assert.ok(svg.includes(rings[amino.id]), amino.id);
-  else assert.match(svg, /x1="200" y1="86" x2="200" y2="124"/);
+  else {
+    assert.match(svg, /x1="200" y1="86" x2="200" y2="124"/);
+    assert.ok([...svg.matchAll(/<text[^>]*>(.*?)<\/text>/g)].every(match => !/[()]/.test(match[1])), amino.id);
+  }
 }
+
+const labels = id => [...structureSvg(AMINO_ACIDS.find(a => a.id === id)).matchAll(/<text[^>]*>(.*?)<\/text>/g)].map(match => match[1]);
+assert.equal(labels('valine').filter(label => label === 'CH₃').length, 2);
+assert.equal(labels('leucine').filter(label => label === 'CH₃').length, 2);
+assert.equal(labels('isoleucine').filter(label => label === 'CH₃').length, 2);
+assert.equal(labels('threonine').filter(label => label === 'CH₃').length, 1);
+assert.equal(labels('lysine').filter(label => label === 'CH₂').length, 4);
+assert.equal(labels('arginine').filter(label => label === 'CH₂').length, 3);
 
 if (process.argv.includes('--preview')) {
   const output = join(tmpdir(), 'amino-lab-structure-preview');
@@ -42,4 +53,4 @@ if (process.argv.includes('--preview')) {
   for (const amino of AMINO_ACIDS) writeFileSync(join(output, `${amino.id}.svg`), structureSvg(amino));
   console.log(`SVG previews: ${output}`);
 }
-console.log('20 records, 20 SVG diagrams, 5 drawn rings and expanded facts: OK');
+console.log('20 records, 20 SVG diagrams, 5 rings and expanded branches: OK');

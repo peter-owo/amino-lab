@@ -1,5 +1,5 @@
-import { AMINO_ACIDS, CATEGORIES, SPECIAL_FACTS } from './data.js?v=20261116b';
-import { structureSvg } from './structures.js?v=20261116b';
+import { AMINO_ACIDS, CATEGORIES, SPECIAL_FACTS } from './data.js?v=20261116c';
+import { structureSvg } from './structures.js?v=20261116c';
 
 const byId = new Map(AMINO_ACIDS.map(a => [a.id, a]));
 const $ = selector => document.querySelector(selector);

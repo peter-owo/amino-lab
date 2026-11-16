@@ -1,4 +1,4 @@
-// Shared, neutral-form diagrams. All coordinates use the same 500 × 250 canvas.
+// Shared, neutral-form diagrams. All coordinates use the same 500 × 260 canvas.
 const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 
 const atom = (x, y, label, className = '', size = 23) =>
@@ -17,12 +17,48 @@ function backbone(proline = false) {
     ${atom(nitrogenX, 77, proline ? 'HN' : 'H₂N')}${atom(alphaX, 77, 'CH')}${atom(carbonX, 77, 'C')}${atom(carbonX, 26, 'O')}${atom(370, 77, 'OH')}`;
 }
 
-function condensedSideChain(formula) {
-  const [first, ...remainder] = formula.split('–');
-  const size = formula.length > 21 ? 17 : formula.length > 14 ? 19 : 22;
-  const firstWidth = first.length * size * 0.6;
-  const rest = remainder.length ? `<text x="${200 + firstWidth / 2 + 5}" y="151" font-size="${size}" class="side">–${escapeHtml(remainder.join('–'))}</text>` : '';
-  return `${bond(200, 86, 200, 124)}${atom(200, 151, escapeHtml(first), 'side', size)}${rest}`;
+const sideNode = (label, x, y = 145) => ({label, x, y});
+
+// Every displayed carbon and functional group is a node. In particular,
+// Val/Leu/Ile/Thr branches are bonds between separate CH and CH₃ labels.
+const SIDE_CHAINS = {
+  glycine: {nodes:{a:sideNode('H',200)},edges:[]},
+  alanine: {nodes:{a:sideNode('CH₃',200)},edges:[]},
+  valine: {nodes:{a:sideNode('CH',200),b:sideNode('CH₃',125),c:sideNode('CH₃',275)},edges:[['a','b'],['a','c']]},
+  leucine: {nodes:{a:sideNode('CH₂',200),b:sideNode('CH',280),c:sideNode('CH₃',365),d:sideNode('CH₃',280,215)},edges:[['a','b'],['b','c'],['b','d']]},
+  isoleucine: {nodes:{a:sideNode('CH',200),b:sideNode('CH₃',125),c:sideNode('CH₂',280),d:sideNode('CH₃',365)},edges:[['a','b'],['a','c'],['c','d']]},
+  methionine: {nodes:{a:sideNode('CH₂',200),b:sideNode('CH₂',270),c:sideNode('S',340),d:sideNode('CH₃',410)},edges:[['a','b'],['b','c'],['c','d']]},
+  serine: {nodes:{a:sideNode('CH₂',200),b:sideNode('OH',280)},edges:[['a','b']]},
+  threonine: {nodes:{a:sideNode('CH',200),b:sideNode('OH',125),c:sideNode('CH₃',280)},edges:[['a','b'],['a','c']]},
+  cysteine: {nodes:{a:sideNode('CH₂',200),b:sideNode('SH',280)},edges:[['a','b']]},
+  asparagine: {nodes:{a:sideNode('CH₂',200),b:sideNode('C',280),c:sideNode('O',280,215),d:sideNode('NH₂',360)},edges:[['a','b'],['b','c',2],['b','d']]},
+  glutamine: {nodes:{a:sideNode('CH₂',200),b:sideNode('CH₂',270),c:sideNode('C',340),d:sideNode('O',340,215),e:sideNode('NH₂',420)},edges:[['a','b'],['b','c'],['c','d',2],['c','e']]},
+  'aspartic-acid': {nodes:{a:sideNode('CH₂',200),b:sideNode('C',280),c:sideNode('O',280,215),d:sideNode('OH',360)},edges:[['a','b'],['b','c',2],['b','d']]},
+  'glutamic-acid': {nodes:{a:sideNode('CH₂',200),b:sideNode('CH₂',270),c:sideNode('C',340),d:sideNode('O',340,215),e:sideNode('OH',420)},edges:[['a','b'],['b','c'],['c','d',2],['c','e']]},
+  lysine: {nodes:{a:sideNode('CH₂',200),b:sideNode('CH₂',265),c:sideNode('CH₂',330),d:sideNode('CH₂',395),e:sideNode('NH₂',465)},edges:[['a','b'],['b','c'],['c','d'],['d','e']]},
+  arginine: {nodes:{a:sideNode('CH₂',200),b:sideNode('CH₂',255),c:sideNode('CH₂',310),d:sideNode('NH',365),e:sideNode('C',410),f:sideNode('NH₂',470),g:sideNode('NH',410,215)},edges:[['a','b'],['b','c'],['c','d'],['d','e'],['e','f'],['e','g',2]]}
+};
+
+function sideBond(a, b, order = 1) {
+  const dx = b.x - a.x, dy = b.y - a.y;
+  const length = Math.hypot(dx, dy);
+  const ux = dx / length, uy = dy / length;
+  const atomRadius = node => Math.max(11, node.label.length * 5.4 + 5);
+  const x1 = a.x + ux * atomRadius(a), y1 = a.y + uy * atomRadius(a);
+  const x2 = b.x - ux * atomRadius(b), y2 = b.y - uy * atomRadius(b);
+  if (order === 1) return bond(Math.round(x1),Math.round(y1),Math.round(x2),Math.round(y2));
+  const ox = -uy * 3.5, oy = ux * 3.5;
+  return `${bond(Math.round(x1+ox),Math.round(y1+oy),Math.round(x2+ox),Math.round(y2+oy),'double-bond')}
+    ${bond(Math.round(x1-ox),Math.round(y1-oy),Math.round(x2-ox),Math.round(y2-oy),'double-bond')}`;
+}
+
+function expandedSideChain(id) {
+  const graph = SIDE_CHAINS[id];
+  if (!graph) throw new Error(`Missing side-chain drawing: ${id}`);
+  const size = ['lysine','arginine'].includes(id) ? 20 : 22;
+  const bonds = graph.edges.map(([from,to,order]) => sideBond(graph.nodes[from],graph.nodes[to],order)).join('');
+  const labels = Object.values(graph.nodes).map(node => atom(node.x,node.y+8,node.label,'side',size)).join('');
+  return `${bond(200,86,200,124)}${bonds}${labels}`;
 }
 
 function benzene(withHydroxyl) {
@@ -66,7 +102,7 @@ export function structureSvg(amino, title = true) {
   const titleMarkup = title ? `<title>${description}</title>` : '';
   const side = ring === 'phenylalanine' ? benzene(false) : ring === 'tyrosine' ? benzene(true) :
     ring === 'histidine' ? imidazole() : ring === 'tryptophan' ? indole() :
-    ring === 'proline' ? pyrrolidine() : condensedSideChain(amino.sideChain);
+    ring === 'proline' ? pyrrolidine() : expandedSideChain(amino.id);
   const accessibility = title ? `role="img" aria-label="${description}"` : 'aria-hidden="true" focusable="false"';
-  return `<svg class="structure-svg" viewBox="0 0 500 250" data-ring="${ring}" ${accessibility}>${titleMarkup}${backbone(ring === 'proline')}${side}</svg>`;
+  return `<svg class="structure-svg" viewBox="0 0 500 260" data-ring="${ring}" ${accessibility}>${titleMarkup}${backbone(ring === 'proline')}${side}</svg>`;
 }
