@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f4e9">
+  <meta name="description" content="用小遊戲和單字卡，輕鬆記住 20 種胺基酸的名稱、縮寫、簡式結構與常考性質。">
+  <title>Amino Lab｜20 種胺基酸學習遊戲</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="Amino Lab，回到首頁"><span class="brand-icon" aria-hidden="true">✳</span> AMINO <span>LAB</span><i aria-hidden="true">.</i></a>
+      <nav class="top-nav" aria-label="主選單">
+        <a href="#home" data-nav="home">首頁</a>
+        <a href="#practice" data-nav="practice">開始練習</a>
+        <a href="#review" data-nav="review">單字卡</a>
+      </nav>
+      <span class="header-note">a little chemistry, every day ↗</span>
+    </header>
+
+    <main>
+      <section id="home" class="view" aria-labelledby="hero-title">
+        <div class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="scribble-line"></span> THE 20 AMINO ACIDS</p>
+            <h1 id="hero-title">把胺基酸，<br><em>一個一個記起來。</em></h1>
+            <p class="hero-description">看名字、認結構、抓性質。從最簡單的英文全名開始，慢慢練到 3 字母、1 字母縮寫。</p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#practice">開始小測驗 <span aria-hidden="true">↗</span></a>
+              <a class="button button-outline" href="#review">先翻翻單字卡 <span aria-hidden="true">→</span></a>
+            </div>
+            <p class="tiny-note"><span aria-hidden="true">✦</span> 不用登入、不限次數，答錯就再試一次。</p>
+          </div>
+          <div class="hero-art" aria-label="胺基酸簡式結構示意">
+            <div class="tape tape-top"></div>
+            <div class="paper-label">A LITTLE NOTE ABOUT AMINO ACIDS</div>
+            <div class="hero-molecule" aria-hidden="true">
+              <span class="mol-top">H</span>
+              <span class="mol-main">H₂N <b>—</b> CH <b>—</b> C(=O)–OH</span>
+              <span class="mol-stem">│</span>
+              <span class="mol-r">R</span>
+            </div>
+            <div class="hero-art-footer"><span>同一個骨架，<br>不同的側鏈 R。</span><span class="hero-stamp">20<br><small>cards</small></span></div>
+            <div class="tape tape-bottom"></div>
+          </div>
+          <span class="doodle-star star-one" aria-hidden="true">✳</span>
+          <span class="doodle-star star-two" aria-hidden="true">✧</span>
+        </div>
+
+        <div class="section-intro"><span class="section-kicker">01 / CHOOSE YOUR PATH</span><h2>今天想怎麼練？</h2><p>三種小挑戰，從辨認到理解。</p></div>
+        <div class="mode-grid">
+          <button class="mode-card" type="button" data-start-mode="nameToStructure"><span class="mode-number">01</span><span class="mode-doodle" aria-hidden="true">Aa → ◇</span><strong>名字 → 結構</strong><span>看到英文名稱或縮寫，選出對的簡式結構。</span><span class="mode-arrow" aria-hidden="true">↗</span></button>
+          <button class="mode-card" type="button" data-start-mode="structureToName"><span class="mode-number">02</span><span class="mode-doodle" aria-hidden="true">◇ → Aa</span><strong>結構 → 名字</strong><span>先觀察側鏈，再從四個名稱中找出答案。</span><span class="mode-arrow" aria-hidden="true">↗</span></button>
+          <button class="mode-card" type="button" data-start-mode="properties"><span class="mode-number">03</span><span class="mode-doodle" aria-hidden="true">✦ ?</span><strong>性質小考</strong><span>練習極性、酸鹼與最常考的特殊特徵。</span><span class="mode-arrow" aria-hidden="true">↗</span></button>
+        </div>
+        <div class="home-footer"><span>Made for curious minds <span aria-hidden="true">♡</span></span><a href="#review">先認識全部 20 張卡 →</a></div>
+      </section>
+
+      <section id="practice" class="view" hidden aria-labelledby="practice-title">
+        <div class="inner-header"><p class="eyebrow">PRACTICE MAKES PROGRESS</p><h1 id="practice-title">來做一點<span class="underline-warm">練習</span>。</h1><p>選好模式就可以開始，答錯也會看到提示。</p></div>
+        <div id="quiz-setup" class="setup-panel">
+          <div class="field-group"><label for="quiz-mode">練習題型</label><select id="quiz-mode"><option value="nameToStructure">名字 → 結構</option><option value="structureToName">結構 → 名字</option><option value="properties">性質小考</option><option value="mixed">綜合練習</option></select></div>
+          <div class="field-group"><label for="name-style">名稱顯示方式</label><select id="name-style"><option value="full">英文全名</option><option value="three">3 字母縮寫</option><option value="one">1 字母縮寫</option><option value="random">隨機混合</option></select><small>用於題目及「結構 → 名字」的選項。</small></div>
+          <div class="field-group"><label for="quiz-length">題數</label><select id="quiz-length"><option value="10">10 題</option><option value="20">20 題</option></select></div>
+          <button id="start-quiz" class="button button-primary" type="button">開始挑戰 <span aria-hidden="true">↗</span></button>
+        </div>
+        <div id="quiz-panel" class="quiz-panel" hidden>
+          <div class="quiz-topline"><span id="quiz-counter">第 1 / 10 題</span><span id="quiz-score">目前答對 0 題</span></div>
+          <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+          <div id="quiz-question" class="quiz-question"></div>
+          <div id="quiz-options" class="quiz-options"></div>
+          <div id="quiz-feedback" class="quiz-feedback" role="status" aria-live="polite" hidden></div>
+          <div class="quiz-actions"><button id="next-question" class="button button-primary" type="button" hidden>下一題 →</button><button id="quit-quiz" class="text-button" type="button">重新設定</button></div>
+        </div>
+        <div id="quiz-result" class="result-panel" hidden></div>
+      </section>
+
+      <section id="review" class="view" hidden aria-labelledby="review-title">
+        <div class="inner-header"><p class="eyebrow">YOUR POCKET CHEMISTRY NOTES</p><h1 id="review-title">20 張<span class="underline-mint">單字卡</span>。</h1><p>先看看側鏈長什麼樣子，再翻面記住關鍵性質。</p></div>
+        <div class="review-controls"><label class="search-wrap"><span class="sr-only">搜尋胺基酸</span><span aria-hidden="true">⌕</span><input id="review-search" type="search" placeholder="搜尋名稱或縮寫…" autocomplete="off"></label><div id="filter-buttons" class="filter-buttons" role="group" aria-label="依側鏈性質篩選"></div></div>
+        <p id="review-count" class="review-count"></p>
+        <div id="card-grid" class="card-grid"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer"><span>AMINO LAB ✳</span><span>結構以中性簡式表示；生理 pH 下的實際電荷可能不同。</span><a href="https://www.imgt.org/IMGTeducation/Aide-memoire/_UK/aminoacids/formuleAA/" target="_blank" rel="noopener noreferrer">結構參考 ↗</a></footer>
+  </div>
+</body>
+</html>
