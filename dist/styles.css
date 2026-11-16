@@ -8,3 +8,67 @@
 @media(max-width:480px){.flashcard .card-name{font-size:17px}.flashcard-back .traits-list{font-size:12px}}
 .structure-svg .double-bond{stroke-width:1.6}.structure-svg .ring-atom-bg{fill:#fffdf6;stroke:none}.structure-svg .ring-atom{fill:#2d6d58;font-weight:900}.flashcard .structure-svg{height:150px;min-height:150px;flex:none}.option.structure-option .structure-svg{height:150px}
 .setup-topics{grid-column:1/-1;margin:0;padding-top:4px;border-top:1px dashed #cbd6c9;color:#6b8072;font-size:13px;line-height:1.6}
+
+/* Phone and small-tablet navigation stays within thumb reach. */
+@media(max-width:740px){
+  body{padding-bottom:calc(66px + env(safe-area-inset-bottom));}
+  .site-header{height:62px;padding:0 16px;position:sticky;top:0;z-index:30;background:#f8f4e9;}
+  .top-nav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;width:100%;padding:6px 10px calc(6px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:#fffdf6;box-shadow:0 -5px 20px rgba(38,51,52,.08);z-index:40;}
+  .top-nav a{min-height:46px;padding:11px 4px;display:grid;place-items:center;border:0;border-radius:9px;font-size:13px;text-align:center;}
+  .top-nav a.active{background:var(--mint);border:0;}
+  .site-footer{padding-bottom:25px;}
+}
+
+@media(max-width:620px){
+  .view{padding:0 16px;}
+  .hero{padding:36px 0 42px;gap:24px;}
+  .hero h1{font-size:clamp(35px,8vw,46px);line-height:1.27;}
+  .hero-description{font-size:15px;line-height:1.75;margin-bottom:23px;}
+  .hero-actions{flex-direction:column;gap:10px;}
+  .hero-actions .button{width:100%;min-height:52px;}
+  .hero-art{width:calc(100% - 16px);min-height:250px;padding:24px 18px 20px;transform:rotate(1.5deg);box-shadow:8px 9px 0 rgba(211,222,204,.64);}
+  .hero-molecule{height:156px;}
+  .mol-main{font-size:clamp(12px,3.7vw,18px);}
+  .mol-top,.mol-stem,.mol-r{margin-left:-48px;}
+  .mol-top{font-size:17px;}.mol-stem{font-size:25px;}.mol-r{font-size:29px;}
+  .hero-art-footer{font-size:13px;}.hero-stamp{width:57px;height:57px;font-size:21px;}
+  .section-intro{margin:4px 0 23px;}
+  .mode-card{min-height:150px;}
+  .inner-header{padding:34px 0 22px;}
+  .inner-header h1{font-size:clamp(34px,8vw,44px);}
+  .setup-panel{padding:18px;gap:17px;box-shadow:5px 5px 0 #dfe8d9;}
+  .setup-panel .button{width:100%;}
+  .quiz-panel,.result-panel{padding:17px 12px 22px;box-shadow:5px 5px 0 #dfe8d9;}
+  .quiz-question h2{font-size:clamp(20px,5.5vw,26px);}
+  .quiz-topline{font-size:12px;gap:10px;}
+  .quiz-options{grid-template-columns:minmax(0,1fr);gap:10px;}
+  .option{min-height:55px;padding:10px;font-size:18px;}
+  .option.structure-option{min-height:0;padding:8px 3px;}
+  .option.structure-option .structure-svg{height:auto;min-height:0;max-height:none;}
+  .question-structure .structure-svg{height:auto;max-height:none;}
+  .quiz-feedback{padding:14px;}
+  .quiz-actions{gap:10px;}
+  .review-controls{gap:10px;}
+  .search-wrap{min-width:0;min-height:48px;}
+  .filter-buttons{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;width:calc(100% + 32px);margin:0 -16px;padding:4px 16px 9px;}
+  .filter-buttons::-webkit-scrollbar{display:none;}
+  .filter-button{flex:0 0 auto;min-height:40px;font-size:13px;padding:8px 14px;}
+  .card-grid{grid-template-columns:minmax(0,1fr);gap:14px;margin-bottom:45px;}
+  .flashcard{min-height:0;padding:18px;}
+  .flashcard .card-name{font-size:21px;}
+  .flashcard-code{font-size:23px;}
+  .flashcard-one{width:38px;height:38px;font-size:20px;}
+  .flashcard .structure-svg{height:auto;min-height:0;max-height:160px;margin:5px auto 8px;}
+  .flashcard-back .traits-list{font-size:14px;line-height:1.6;}
+  .flashcard-back .tip{font-size:13px;}
+  .site-footer{padding-left:16px;padding-right:16px;}
+}
+
+@media(max-width:360px){
+  .hero-art{width:100%;padding-left:12px;padding-right:12px;}
+  .paper-label{font-size:8px;}
+  .mol-main{font-size:12px;}
+  .mode-card{padding:17px;}
+  .mode-card>span:nth-last-child(2){max-width:82%;}
+  .quiz-panel,.result-panel{padding-left:9px;padding-right:9px;}
+}
